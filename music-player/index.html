@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Music Player</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Background glow that mirrors the album art color -->
+  <div class="bg-glow" id="bgGlow"></div>
+
+  <main class="container">
+    <div class="player-card">
+
+      <!-- Album Art -->
+      <div class="album-art-wrapper">
+        <img class="album-art" id="albumArt" src="" alt="Album Art" />
+      </div>
+
+      <!-- Song Info -->
+      <div class="song-info">
+        <h1 class="song-title" id="songTitle">Song Title</h1>
+        <p class="song-artist" id="songArtist">Artist Name</p>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="progress-section">
+        <span class="time" id="currentTime">0:00</span>
+        <input
+          type="range"
+          class="progress-bar"
+          id="progressBar"
+          min="0"
+          max="100"
+          value="0"
+        />
+        <span class="time" id="totalTime">0:00</span>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls">
+        <button class="ctrl-btn" id="prevBtn" aria-label="Previous song">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/>
+          </svg>
+        </button>
+
+        <button class="ctrl-btn play-btn" id="playBtn" aria-label="Play or pause">
+          <!-- Play icon -->
+          <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          <!-- Pause icon (hidden by default) -->
+          <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+          </svg>
+        </button>
+
+        <button class="ctrl-btn" id="nextBtn" aria-label="Next song">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6 18l8.5-6L6 6v12zm2.5-6 6-4.35v8.7L8.5 12zM16 6h2v12h-2z"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Volume -->
+      <div class="volume-section">
+        <svg class="volume-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+        </svg>
+        <input
+          type="range"
+          class="volume-bar"
+          id="volumeBar"
+          min="0"
+          max="100"
+          value="70"
+        />
+      </div>
+
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
