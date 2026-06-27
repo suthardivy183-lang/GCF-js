@@ -54,6 +54,7 @@ const prevBtn     = document.getElementById("prevBtn");
 const nextBtn     = document.getElementById("nextBtn");
 const volumeBar   = document.getElementById("volumeBar");
 const bgGlow      = document.getElementById("bgGlow");
+const playlistList = document.getElementById("playlistList");
 const iconPlay    = playBtn.querySelector(".icon-play");
 const iconPause   = playBtn.querySelector(".icon-pause");
 
@@ -64,6 +65,45 @@ function formatTime(seconds) {
   var s = Math.floor(seconds % 60);
   if (s < 10) s = "0" + s;
   return m + ":" + s;
+}
+
+// ── Build the playlist UI ──
+function renderPlaylist() {
+  playlistList.innerHTML = "";
+
+  for (var i = 0; i < songs.length; i++) {
+    var song = songs[i];
+    var li = document.createElement("li");
+    li.className = "playlist-item" + (i === currentIndex ? " active" : "");
+    li.dataset.index = i;
+
+    // Number or animated bars for active song
+    var numSpan;
+    if (i === currentIndex) {
+      numSpan = '<span class="playlist-item-num"><span class="bar"></span><span class="bar"></span><span class="bar"></span></span>';
+    } else {
+      numSpan = '<span class="playlist-item-num">' + (i + 1) + '</span>';
+    }
+
+    li.innerHTML =
+      numSpan +
+      '<img class="playlist-item-cover" src="' + song.cover + '" alt="' + song.title + '" />' +
+      '<div class="playlist-item-info">' +
+        '<div class="playlist-item-title">' + song.title + '</div>' +
+        '<div class="playlist-item-artist">' + song.artist + '</div>' +
+      '</div>';
+
+    li.addEventListener("click", function() {
+      currentIndex = parseInt(this.dataset.index);
+      loadSong(currentIndex);
+      audio.play();
+      isPlaying = true;
+      iconPlay.style.display  = "none";
+      iconPause.style.display = "";
+    });
+
+    playlistList.appendChild(li);
+  }
 }
 
 // ── Load a song by index ──
@@ -80,16 +120,19 @@ function loadSong(index) {
   currentTime.textContent = "0:00";
   totalTime.textContent   = "0:00";
 
-  // Update background glow color based on song index (simple color cycling)
+  // Update background glow color based on song index
   var colors = [
-    "rgba(167, 139, 250, 0.2)",   // purple
-    "rgba(251, 191, 36, 0.18)",   // gold
-    "rgba(52, 211, 153, 0.18)",   // green
-    "rgba(96, 165, 250, 0.18)",   // blue
-    "rgba(251, 113, 133, 0.18)"   // pink
+    "rgba(167, 139, 250, 0.2)",
+    "rgba(251, 191, 36, 0.18)",
+    "rgba(52, 211, 153, 0.18)",
+    "rgba(96, 165, 250, 0.18)",
+    "rgba(251, 113, 133, 0.18)"
   ];
   bgGlow.style.background =
     "radial-gradient(ellipse 60% 50% at 50% 40%, " + colors[index] + " 0%, transparent 70%)";
+
+  // Re-render playlist to update active highlight
+  renderPlaylist();
 }
 
 // ── Toggle play / pause ──
@@ -166,3 +209,4 @@ audio.addEventListener("ended", onSongEnd);
 // ── Init ──
 audio.volume = volumeBar.value / 100;
 loadSong(currentIndex);
+renderPlaylist();
